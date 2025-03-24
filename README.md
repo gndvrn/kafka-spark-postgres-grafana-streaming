@@ -32,6 +32,8 @@ docker ps
 The producer generates real-time messages and sends them to Kafka.
 
 - **Run the producer:**
+- When you will run docker-compose up --build, The kafka-producer container will automatically start to generate data. You just need to consume it from console to check.
+- **Run the producer:**
 docker exec -it kafka-producer python3 kafka_producer.py
 
 ### Kafka & Zookeeper
