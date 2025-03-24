@@ -20,23 +20,11 @@ Ensure you have **Docker**, **Docker Compose**, **Git**, and **Python** installe
 ### Clone the Repository
 git clone https://github.com/dinkleva/kafka-spark-postgres-grafana-streaming.git cd kafka-spark-postgres-grafana-streaming
 
-shell
-Copy
-Edit
-
 ### Start the Docker Containers
 docker-compose up --build -d
 
-shell
-Copy
-Edit
-
 ### Verify the Setup
 docker ps
-
-markdown
-Copy
-Edit
 
 ## Project Components
 
@@ -46,45 +34,24 @@ The producer generates real-time messages and sends them to Kafka.
 - **Run the producer:**
 docker exec -it kafka-producer python3 kafka_producer.py
 
-markdown
-Copy
-Edit
-
 ### Kafka & Zookeeper
 - **Check Kafka Topics:**
 docker exec -it kafka kafka-topics.sh --list --bootstrap-server kafka:9092
 
-markdown
-Copy
-Edit
 - **Consume Kafka Messages:**
 docker exec -it kafka kafka-console-consumer.sh --topic new_topic --bootstrap-server kafka:9092 --from-beginning
 
-markdown
-Copy
-Edit
 
 ### Spark Structured Streaming
 - **Run the Spark Job:**
 docker exec -it spark-master spark-submit --master spark://spark-master:7077 --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 /opt/bitnami/spark/kafka-spark-streaming.py
 
-markdown
-Copy
-Edit
-
 ### PostgreSQL
 - **Connect to the Database:**
 docker exec -it postgres psql -U postgres -d kafka_streaming
 
-markdown
-Copy
-Edit
 - **Check Data in Table:**
 SELECT * FROM kafka_messages;
-
-markdown
-Copy
-Edit
 
 ### Grafana
 1. **Open Grafana:** http://localhost:3000  
@@ -108,10 +75,6 @@ Edit
 ## Stopping the Services
 docker-compose down
 
-markdown
-Copy
-Edit
-
 ## Next Steps
 - Deploy on the **Cloud**
 - Enhance the **Kafka Producer** with real-world data
@@ -120,5 +83,5 @@ Edit
 ## Contributing
 Fork this repository, create a pull request, or suggest improvements.
 
-## License
-MIT License
+## Author
+Gaurav Srivastava
