@@ -44,6 +44,8 @@ docker exec -it kafka kafka-console-consumer.sh --topic new_topic --bootstrap-se
 
 ### Spark Structured Streaming
 Run the Spark Job:  
+Before running below command run this command :
+docker cp kakfa-spark-streaming.py spark-master:/opt/bitnami/spark/ # so that it will copy this python file to spakr-master container at /opt/bitnami/spark/ location, then below command will run
 docker exec -it spark-master spark-submit --master spark://spark-master:7077 --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 /opt/bitnami/spark/kafka-spark-streaming.py  
 
 ### PostgreSQL
