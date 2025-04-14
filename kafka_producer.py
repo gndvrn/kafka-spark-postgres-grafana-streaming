@@ -1,12 +1,14 @@
-from confluent_kafka import Producer
+from kafka import KafkaProducer
 import json
 import time
 from datetime import datetime
 
-# Kafka broker details
-conf = {'bootstrap.servers': 'kafka:9092'}  # Use 'kafka' because it's the service name in Docker Compose
 
-producer = Producer(conf)
+producer = KafkaProducer(
+    bootstrap_servers=['kafka:9092'],
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+    api_version=(3, 4, 0)
+)
 
 def delivery_report(err, msg):
     """ Callback for message delivery reports """
@@ -24,10 +26,17 @@ while True:
         "timestamp": datetime.now().isoformat()
     }
 
-    # Convert to JSON string
-    message_json = json.dumps(message)
+    
 
-    # Produce message to Kafka
-    producer.produce(topic, message_json.encode('utf-8'), callback=delivery_report)
-    producer.flush()  # Ensure messages are sent
-    time.sleep(2)  # Produces a message every 2 seconds
+    try:
+        future = producer.send(topic,  message)
+
+        metadata = future.get(timeout=10)
+        print(f"Sent: {message} | Partition: {metadata.partition}, Offset: {metadata.offset}", flush=True)
+    
+    except Exception as e:
+        print(f"Error sending message: {str(e)}", flush=True)
+    
+    time.sleep(2)
+
+    
