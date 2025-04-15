@@ -20,10 +20,10 @@ df = spark.readStream \
 df_transformed = df.selectExpr("CAST(value AS STRING) as message")
 
 # Print messages to console
-# query = df_transformed.writeStream \
-#     .outputMode("append") \
-#     .format("console") \
-#     .start()
+query = df_transformed.writeStream \
+    .outputMode("append") \
+    .format("console") \
+    .start()
 
 # query.awaitTermination()
 
@@ -38,7 +38,7 @@ def write_to_postgres(df, epoch_id):
       .option("url", "jdbc:postgresql://postgres:5432/kafka_streaming") \
       .option("dbtable", "kafka_messages") \
       .option("user", "postgres") \
-      .option("password", "postpass") \
+      .option("password", "postgres") \
       .option("driver", "org.postgresql.Driver") \
       .mode("append") \
       .save()
