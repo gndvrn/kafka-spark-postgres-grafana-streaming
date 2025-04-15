@@ -31,50 +31,35 @@ services:
       - kafka-spark-streaming
     
 
-  spark-master:
-    image: bitnami/spark:latest
-    container_name: spark-master
+  spark:
+    container_name: spark
+    build: ./spark
     depends_on:
-      - kafka
-    command: bin/spark-class org.apache.spark.deploy.master.Master
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
     environment:
-      - SPARK_MODE=master
-    ports:
-      - "8080:8080"
-      - "7077:7077"
+      KAFKA_BROKER: "kafka:9092"
+      POSTGRES_URL: "jdbc:postgresql://postgres:5432/kafka_streaming"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
     networks:
       - kafka-spark-streaming
-    volumes:
-      - ./jars/postgresql-42.3.3.jar:/opt/bitnami/spark/jars/postgresql-42.3.3.jar
+    
 
 
-  spark-worker-1:
-    image: bitnami/spark:latest
-    container_name: spark-worker-1
-    depends_on:
-      - spark-master
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
-    environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
-    networks:
-      - kafka-spark-streaming
-    volumes:
-     - ./jars/postgresql-42.3.3.jar:/opt/bitnami/spark/jars/postgresql-42.3.3.jar
 
-
-  kafka-producer:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  producer:
+    build: ./producer
     container_name: producer
     depends_on:
       kafka:
         condition: service_healthy
-    networks: 
-      - kafka-spark-streaming
     environment:
       KAFKA_BROKER: "kafka:9092"
+    networks:
+      - kafka-spark-streaming
 
       
   postgres:
@@ -92,6 +77,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 
   grafana:

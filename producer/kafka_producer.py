@@ -23,7 +23,7 @@ while True:
     # Generate structured message
     message = {
         "message": f"Kafka event at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-        "timestamp": datetime.now().isoformat()
+        "processed_at": datetime.now().isoformat()
     }
 
     
