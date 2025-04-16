@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS kafka_messages (
-    id SERIAL PRIMARY KEY,
-    message TEXT,
-    processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
