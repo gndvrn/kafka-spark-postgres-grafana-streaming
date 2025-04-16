@@ -21,6 +21,7 @@ Ensure you have Docker, Docker Compose, Git, and Python installed.
 
 ### Clone the Repository
 `git clone https://github.com/gndvrn/kafka-spark-postgres-grafana-streaming.git`
+
 `cd kafka-spark-postgres-grafana-streaming`
 
 ### Start the Docker Containers
