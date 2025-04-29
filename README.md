@@ -69,7 +69,7 @@ This query will show you up the latest 10 transactions in your database.
 
 2. Add a PostgreSQL Data Source:  
    - URL: `postgres:5432`  
-   - Database: `kafka_streaming` 
+   - Database: `offline-store-transactions` 
    - User: `postgres`  
    - Password: `postgres`
    - Change SSL/TLS  value to `disable`
