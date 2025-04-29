@@ -55,10 +55,12 @@ You can change the data you want to generate. So, basically, you need to make ch
 You can manually connect to your PostgreSQL DB to check the table structure and data in it
 
 Connect to the Database:  
-`docker exec -it postgres psql -U postgres -d kafka_streaming`
+`docker exec -it postgres psql -U postgres -d offline-store-transactions`
 
 Then type in:  
-`SELECT * FROM kafka_messages;`  
+`SELECT * FROM transactions ORDER BY transaction_time DESC LIMIT 10;`
+
+This query will show you up the latest 10 transactions in your database.
 
 ### Grafana
 1. Open Grafana: http://localhost:3000  
