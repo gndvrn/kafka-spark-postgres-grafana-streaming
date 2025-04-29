@@ -1,5 +1,9 @@
 # kafka-spark-postgresql-grafana-streaming
 
+## Preview
+
+![alt text](grafana/preview.png)
+
 ## Overview
 This project is a fork of an existing original project. I remade it and now it's working for me.
 
